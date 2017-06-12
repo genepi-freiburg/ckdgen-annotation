@@ -25,8 +25,10 @@ echo "Input file: $INFN"
 echo "Output file: $OUTFN"
 
 # keep header
-head -n 1 $INFN > $OUTFN
+#head -n 1 $INFN > $OUTFN
 
 # sort -g can sort exponential numbers
-sort -g -k 10 $INFN | head -n $TOPN >> $OUTFN
+# first line is header (because of sort order)
+
+sort -g -k 10 $INFN | head -n $TOPN > $OUTFN
 
