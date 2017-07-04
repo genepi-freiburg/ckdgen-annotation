@@ -12,6 +12,7 @@ then
 	exit 3
 fi
 
+OUTFN=$2
 if [ "$OUTFN" == "" ]
 then
 	echo "Please give filter output file name as second parameter."
@@ -19,7 +20,6 @@ then
 	exit 3
 fi
 
-OUTFN=$2
 if [ -f "$OUTFN" ]
 then
         echo "Output file exists: $OUTFN"
@@ -62,7 +62,7 @@ then
         NTOT=$6
         echo "Use sum(n(total)) filter from commandline: >= ${NTOT}"
 else
-        echo "Use default sum(n(total)) filter: >= ${NTOT}}"
+        echo "Use default sum(n(total)) filter: >= ${NTOT}"
 fi
 
 
@@ -71,16 +71,22 @@ NSTUD_COL=`$FIND_COL HetDf $FN`
 ISQ_COL=`$FIND_COL HetISq $FN`
 SUM_EFF_COL=`$FIND_COL n_effective_sum $FN`
 SUM_TOT_COL=`$FIND_COL n_total_sum $FN`
-echo "Columns (0-based): n(studies) = $NSTUD_COL, sum(n(effective)) = $SUM_EFF_COL, sum(n(total)) = $SUM_TOT_COL"
+echo "Columns (0-based): n(studies) = $NSTUD_COL, HetI2 = $ISQ_COL, sum(n(effective)) = $SUM_EFF_COL, sum(n(total)) = $SUM_TOT_COL"
 
 cat $FN | awk -F $'\t' -v nstud_filter=$NSTUD -v hetisq_filter=$HETISQ -v neff_filter=$NEFF -v ntot_filter=$NTOT \
-	-v nStudCol=$NSTUD_COL -v isqCol=$ISQCOL -v sumEffCol=$SUM_EFF_COL -v sumTotCol=$SUM_TOT_COL \
+	-v nStudCol=$NSTUD_COL -v isqCol=$ISQ_COL -v sumEffCol=$SUM_EFF_COL -v sumTotCol=$SUM_TOT_COL \
 	'BEGIN {OFS = FS} { 
 	if (FNR > 1) {
 		isq = $(isqCol+1);
 		nstud = $(nStudCol+1) + 1;
 		sumeff = $(sumEffCol+1);
 		sumtot = $(sumTotCol+1);
+
+		#print "nstud", nstud, "nstud_filter", nstud_filter;
+		#print "isq", isq, "hetisq_filter", hetisq_filter;
+		#print "sumeff", sumeff, "neff_filter", neff_filter;
+		#print "sumtot", sumtot, "ntot_filter", ntot_filter;
+
 		if (nstud >= nstud_filter && isq < hetisq_filter && sumeff >= neff_filter && sumtot >= ntot_filter) {
 			print $0;
 		}
