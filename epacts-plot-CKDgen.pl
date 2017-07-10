@@ -373,7 +373,7 @@ my $outfn = $F[$#F];
 
 $cmd = "$binrm $outf.cmd $outf.qq.eps $outf.mh.eps $outf.*.dat";
 print "$cmd\n";
-#print `$cmd`;
+print `$cmd`;
 die "FATAL ERROR - epacts-plot: Error occured while removing files" if ( $? == -1 ); 
 
 # MW 20170627 - don't like this file
