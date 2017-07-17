@@ -1,1 +1,0 @@
-../../metaanalysis/scripts/plot_mh_qq_metal.sh
