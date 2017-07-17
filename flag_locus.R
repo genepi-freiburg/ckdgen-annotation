@@ -2,7 +2,7 @@ args <- commandArgs(trailingOnly = TRUE)
 infn = args[1]
 outfn = args[2]
 
-known_loci_fn = "/shared/annotation/data/Known_Loci_MW_20170710.txt"
+known_loci_fn = "/shared/annotation/data/Known_Loci_20170717.txt"
 boundary = 500000
 
 print("Reading data...")

@@ -53,6 +53,14 @@ echo "Sort $OUTFN"
 (head -n 1 $OUTFN && tail -n +2 $OUTFN | sort -k1,2.1) > ${OUTFN}.sorted
 mv ${OUTFN}.sorted $OUTFN
 
-wc -l $INFN $OUTFN
+echo
+echo "Flag results"
+echo "------------"
+
+Rscript /shared/annotation/scripts/group_results_by_locus.R ${OUTFN} ${OUTFN}.locus
+Rscript /shared/annotation/scripts/flag_locus.R ${OUTFN}.locus ${OUTFN}.locus.flagged
+mv ${OUTFN}.locus.flagged ${OUTFN}.locus
+
+wc -l $INFN $OUTFN ${OUTFN}.locus
 
 echo "Done"
