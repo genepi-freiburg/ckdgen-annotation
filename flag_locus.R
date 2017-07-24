@@ -2,7 +2,7 @@ args <- commandArgs(trailingOnly = TRUE)
 infn = args[1]
 outfn = args[2]
 
-known_loci_fn = "/shared/annotation/data/Known_Loci_20170717.txt"
+known_loci_fn = "/shared/annotation/data/Known_Loci_20170721.txt"
 boundary = 500000
 
 print("Reading data...")
@@ -10,6 +10,8 @@ data = read.table(infn, h=T, sep="\t")
 
 print("Reading known loci...")
 known = read.table(known_loci_fn, h=T, sep="\t")
+#summary(known)
+known$Pos_b37 = as.numeric(known$Pos_b37)
 
 print("Flagging...")
 for (i in 1:nrow(data)) {
@@ -30,6 +32,9 @@ for (i in 1:nrow(data)) {
 		data[i, "trait"] = ""
 	}
 }
+
+print("Flagging results")
+table(data$is_known)
 
 print("Writing output...")
 write.table(data, outfn, row.names=F, col.names=T, sep="\t", quote=F)
