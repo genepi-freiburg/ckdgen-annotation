@@ -2,6 +2,7 @@ args <- commandArgs(trailingOnly = TRUE)
 infn = args[1]
 outfn = args[2]
 boundary = 500000
+#boundary = 1000000
 filterpval = 5e-8
 
 print("Reading data...")

@@ -49,7 +49,7 @@ else
 	echo "Drop lines without RSID"
 fi
 
-join <(cat ${INFN} | tail -n+2 | sort -k1) <(zcat $ANNOTATE_FILE | tail -n+2) -1 1 -2 1 -t'	' $KEEP_OPT >> $OUTFN
+join <(cat ${INFN} | tail -n+2 | sort -T . -k1) <(zcat $ANNOTATE_FILE | tail -n+2) -1 1 -2 1 -t'	' $KEEP_OPT >> $OUTFN
 
 wc -l $OUTFN ${INFN}
 
