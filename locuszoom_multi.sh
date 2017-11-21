@@ -1,16 +1,16 @@
 LOCUS_FILE=$1
 EPACTS_FILE=$2
 
-if [ "$#" -ne 2 ]
+if [ "$#" -lt 2 ]
 then
-	echo "Usage: $0 <LocusFile> <EpactsFile>"
+	echo "Usage: $0 <LocusFile> <EpactsFile> [<pop>]"
 	echo "Plots all regions in <LocusFile> using LocusZoom"
 	echo "Need .gz / .gz.tbi for <EpactsFile>"
 	echo "Example: $0 myLoci.locus MetaResult.epacts.gz"
 	exit 2
 fi
 
-echo "Got 2 arguments."
+echo "Got 2 or more arguments."
 
 if [ ! -f "${LOCUS_FILE}" ]
 then
@@ -36,6 +36,13 @@ fi
 
 echo "Plot loci from locus file $LOCUS_FILE using EPACTS file $EPACTS_FILE"
 
+POP="EUR"
+if [ "$3" != "" ]
+then
+	POP="$3"
+fi
+echo "Using population: $POP"
+
 echo "Generate hitspec file"
 /shared/annotation/scripts/locus_to_hitspec.sh $LOCUS_FILE
 
@@ -43,7 +50,7 @@ echo "Invoke LocusZoom"
 locuszoom --epacts $EPACTS_FILE \
 	--hitspec ${LOCUS_FILE%.*}.hitspec \
 	--build hg19 \
-	--pop EUR \
+	--pop $POP \
 	--source 1000G_March2012 \
 	--gwas-cat whole-cat_significant-only \
 	--plotonly \
